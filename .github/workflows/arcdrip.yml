@@ -1,0 +1,17 @@
+name: arcdrip
+on: { push: { branches: [main] }, workflow_dispatch: {} }
+permissions: { contents: read, checks: write, issues: write }
+jobs:
+  arcdrip:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm ci                      # with the SDK installed, arcdrip resolves calls through the type checker (tier 1)
+      - uses: Gautam121212/arcdrip@31a511ff1f0210229cda3be389a8afdff5788e36 # v0.1.1
+        with:
+          spec_repo: Gautam121212/openapi  # your fork
+          seed_ref: 58e06a3214ae1574600fba64d40b770e5da6d505               # the fork's master at the time you forked = unmodified baseline
