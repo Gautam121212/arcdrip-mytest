@@ -9,7 +9,6 @@ export async function customerSummary(customerId: string) {
   const customer = await stripe.customers.retrieve(customerId);
   if (customer.deleted) return null;
   return {
-    email: customer.email,
     paymentMethod: customer.invoice_settings.default_payment_method,
   };
 }
